@@ -1,5 +1,7 @@
 # K11 QA MCP demos
 
+[![Demos](https://github.com/K11-Software-Solutions/k11techlab-qa-mcp-demos/actions/workflows/demos.yml/badge.svg)](https://github.com/K11-Software-Solutions/k11techlab-qa-mcp-demos/actions/workflows/demos.yml)
+
 A historical record of the first live runs of two Claude Code plugins:
 
 - [k11techlab-playwright-qa-mcp](https://github.com/K11-Software-Solutions/k11techlab-playwright-qa-mcp) (0.4.1)
@@ -28,8 +30,8 @@ Both plugins turn a user story into a passing test through the same command, `/<
 | TodoMVC story, 5 acceptance criteria | **5/5 pass** in 26 s | **5/5 pass** in 5.5 s, first time |
 | Tests | [selenium/tests/test_todo_items.py](selenium/tests/test_todo_items.py) | [playwright/tests/todo-items.spec.ts](playwright/tests/todo-items.spec.ts) |
 
-Both suites run against the live TodoMVC demo site. If one fails later, either the suite or the demo
-site has changed.
+CI runs both TodoMVC suites against the live demo site on every push and every Monday. If a run
+fails, either the suite or the demo site has changed.
 
 ## Layout
 

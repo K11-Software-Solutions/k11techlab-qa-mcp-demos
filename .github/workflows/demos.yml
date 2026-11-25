@@ -1,0 +1,37 @@
+name: Demos
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1" # Mondays: catch changes to the live demo site
+
+permissions:
+  contents: read
+
+jobs:
+  selenium:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: selenium
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv venv .venv && uv pip install --python .venv/bin/python -r requirements.txt
+      - run: .venv/bin/python -m pytest tests -v
+
+  playwright:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: playwright
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test
