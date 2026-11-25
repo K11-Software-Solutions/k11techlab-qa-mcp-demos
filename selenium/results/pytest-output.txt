@@ -1,0 +1,12 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.0, pytest-9.2.0, pluggy-1.7.0 -- .venv/Scripts/python.exe
+rootdir: <repo>/selenium
+collecting ... collected 5 items
+
+tests/test_todo_items.py::TestAddAndCompleteToDoItems::test_enter_adds_buy_milk_to_the_list PASSED [ 20%]
+tests/test_todo_items.py::TestAddAndCompleteToDoItems::test_counter_shows_2_items_left_after_adding_two PASSED [ 40%]
+tests/test_todo_items.py::TestAddAndCompleteToDoItems::test_ticking_buy_milk_completes_it_and_counter_shows_1_item_left PASSED [ 60%]
+tests/test_todo_items.py::TestAddAndCompleteToDoItems::test_clear_completed_removes_buy_milk_and_leaves_walk_the_dog PASSED [ 80%]
+tests/test_todo_items.py::TestAddAndCompleteToDoItems::test_enter_on_empty_box_adds_nothing PASSED [100%]
+
+============================= 5 passed in 26.66s ==============================

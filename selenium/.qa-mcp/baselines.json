@@ -1,0 +1,52 @@
+{
+  "https://demo.playwright.dev/todomvc/": {
+    "(By.CSS_SELECTOR, 'input[placeholder=\"What needs to be done?\"]')": {
+      "fingerprint": {
+        "classes": "new-todo",
+        "name": "What needs to be done?",
+        "placeholder": "What needs to be done?",
+        "role": "textbox",
+        "tag": "input"
+      },
+      "capturedAt": "2026-11-25T20:35:29+00:00"
+    },
+    "(By.CSS_SELECTOR, '[data-testid=\"todo-count\"]')": {
+      "fingerprint": {
+        "classes": "todo-count",
+        "name": "2 items left",
+        "tag": "span",
+        "testId": "todo-count",
+        "text": "2 items left"
+      },
+      "capturedAt": "2026-11-25T20:35:29+00:00"
+    },
+    "(By.XPATH, '//li[@data-testid=\"todo-item\"][normalize-space()=\"Buy milk\"]')": {
+      "fingerprint": {
+        "name": "Buy milk",
+        "tag": "li",
+        "testId": "todo-item",
+        "text": "Buy milk"
+      },
+      "capturedAt": "2026-11-25T20:35:29+00:00"
+    },
+    "(By.XPATH, '//li[@data-testid=\"todo-item\"][normalize-space()=\"Walk the dog\"]')": {
+      "fingerprint": {
+        "name": "Walk the dog",
+        "tag": "li",
+        "testId": "todo-item",
+        "text": "Walk the dog"
+      },
+      "capturedAt": "2026-11-25T20:35:29+00:00"
+    },
+    "(By.XPATH, '//li[@data-testid=\"todo-item\"][normalize-space()=\"Buy milk\"]//input[contains(@class,\"toggle\")]')": {
+      "fingerprint": {
+        "classes": "toggle",
+        "name": "Toggle Todo",
+        "role": "checkbox",
+        "tag": "input",
+        "type": "checkbox"
+      },
+      "capturedAt": "2026-11-25T20:35:29+00:00"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "https://demo.playwright.dev/todomvc/": {
+    "page.getByPlaceholder('What needs to be done?')": {
+      "fingerprint": {
+        "tag": "input",
+        "role": "textbox",
+        "name": "What needs to be done?",
+        "placeholder": "What needs to be done?",
+        "classes": "new-todo"
+      },
+      "capturedAt": "2026-11-25T20:43:13.254Z"
+    },
+    "page.getByTestId('todo-count')": {
+      "fingerprint": {
+        "tag": "span",
+        "name": "1 item left",
+        "text": "1 item left",
+        "testId": "todo-count",
+        "classes": "todo-count"
+      },
+      "capturedAt": "2026-11-25T20:43:13.254Z"
+    },
+    "page.getByRole('button', { name: 'Clear completed' })": {
+      "fingerprint": {
+        "tag": "button",
+        "role": "button",
+        "name": "Clear completed",
+        "text": "Clear completed",
+        "classes": "clear-completed"
+      },
+      "capturedAt": "2026-11-25T20:43:13.254Z"
+    },
+    "page.locator('[data-testid=\"todo-item\"]:has-text(\"Buy milk\") .toggle')": {
+      "fingerprint": {
+        "tag": "input",
+        "role": "checkbox",
+        "name": "Toggle Todo",
+        "type": "checkbox",
+        "classes": "toggle"
+      },
+      "capturedAt": "2026-11-25T20:43:13.254Z"
+    }
+  }
+}
