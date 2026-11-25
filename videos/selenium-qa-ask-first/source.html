@@ -1,0 +1,197 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Selenium QA: ask before you build</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1080px;overflow:hidden;background:#0a1028}
+body{font-family:"Segoe UI","Inter",system-ui,sans-serif;color:#eef2f8}
+#grid{position:absolute;inset:0;background-image:linear-gradient(rgba(140,170,230,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(140,170,230,.05) 1px,transparent 1px);background-size:54px 54px}
+#glow{position:absolute;width:1200px;height:1200px;left:-60px;top:-300px;border-radius:50%;background:radial-gradient(circle,rgba(110,214,72,.15),rgba(110,214,72,0) 60%)}
+.scene{position:absolute;inset:0;padding:90px 80px;display:flex;flex-direction:column;justify-content:center;opacity:0}
+.kicker{font-size:22px;letter-spacing:.22em;font-weight:700;color:#7ddc4a;text-transform:uppercase}
+.h1{font-size:74px;font-weight:800;line-height:1.08;letter-spacing:-.01em}
+.h2{font-size:52px;font-weight:800;line-height:1.12}
+.sub{font-size:30px;color:#a9b7cc;margin-top:22px;line-height:1.35}
+.accent{color:#7ddc4a}.gold{color:#f5c96a}.red{color:#f87171}.green{color:#4ade80}.dim{color:#7f90ad}
+.mono{font-family:"Cascadia Mono","Consolas",monospace}
+.card{background:#111a3a;border:2px solid #263463;border-radius:18px;padding:26px 30px;margin-top:22px}
+.story{font-size:27px;line-height:1.5;color:#dbe4f1}
+.code{font-size:22px;line-height:1.7}
+.term{background:rgba(6,10,24,.94);border:2px solid #24344f;border-radius:18px;overflow:hidden;margin-top:18px}
+.bar{display:flex;gap:10px;padding:14px 20px;border-bottom:1px solid #1e2c44;align-items:center;color:#8ea0bb;font-size:19px}
+.dot{width:13px;height:13px;border-radius:50%}
+.tbody{padding:20px 26px;font-size:22px;line-height:1.6}
+.q{background:#121c40;border:2px solid #2a3a6e;border-left:6px solid #f5c96a;border-radius:14px;padding:16px 20px;margin-top:14px}
+.chip{display:inline-block;font-size:17px;font-weight:800;padding:4px 12px;border-radius:8px;letter-spacing:.04em;color:#f5c96a;border:2px solid #f5c96a;background:rgba(245,201,106,.1);margin-bottom:8px}
+.qtext{font-size:24px;line-height:1.38}
+.quote{font-size:20px;color:#93a4bf;font-style:italic;margin-top:6px}
+.pill{display:inline-block;font-size:22px;font-weight:700;padding:10px 18px;border-radius:12px;background:#15262a;border:2px solid #3a6b3a;margin:8px 8px 0 0}
+.ready{display:inline-block;font-size:24px;font-weight:800;padding:8px 16px;border-radius:10px;border:2px solid}
+.ready.no{color:#f87171;border-color:#ef4444;background:rgba(239,68,68,.12)}
+.ready.yes{color:#4ade80;border-color:#22c55e;background:rgba(34,197,94,.12)}
+.two{display:flex;gap:22px;margin-top:30px}
+.box{flex:1;background:#111a3a;border:2px solid #263463;border-radius:18px;padding:26px}
+.box .big{font-size:44px;font-weight:800;margin-top:10px}
+.cmd{font-size:25px;background:#060a18;border:2px solid #24344f;border-radius:12px;padding:16px 20px;margin-top:16px}
+.row{display:flex;justify-content:space-between;align-items:center;font-size:21px;padding:9px 0;border-bottom:1px solid #1e2c44}
+.row:last-child{border-bottom:0}
+.lang{flex:1;text-align:center;font-size:34px;font-weight:800;padding:30px 10px;background:#111a3a;border:2px solid #263463;border-radius:18px}
+.foot{position:absolute;left:80px;right:80px;bottom:44px;display:flex;justify-content:space-between;font-size:20px;color:#7f90ad}
+[data-at]{opacity:0}
+</style></head>
+<body>
+<div id="grid"></div><div id="glow"></div>
+
+<!-- 1. Hook -->
+<section class="scene" data-start="0" data-end="5.4">
+  <div class="kicker" data-at="0.2">k11 Selenium QA · v0.3.0</div>
+  <div class="h1" style="margin-top:26px" data-at="0.5">Now Selenium<br>asks <span class="accent">first,</span> too.</div>
+  <div class="sub" data-at="1.8">The "ask before you build" step from the Playwright plugin,<br>for <span class="gold">pytest, JUnit 5 and TestNG.</span></div>
+</section>
+
+<!-- 2. Vague story: it stops and asks -->
+<section class="scene" data-start="5.4" data-end="18.5">
+  <div class="kicker" data-at="0">Live run · vague story</div>
+  <div class="term" data-at="0.3">
+    <div class="bar"><span class="dot" style="background:#f87171"></span><span class="dot" style="background:#f5c96a"></span><span class="dot" style="background:#4ade80"></span><span style="margin-left:12px">Claude Code</span></div>
+    <div class="tbody mono">
+      <div data-type="0.6">&gt; /selenium-qa:story-to-test "As a shopper…"</div>
+      <div data-at="2.2" style="margin-top:8px">review_user_story → <span class="ready no">ready: false · 3 questions</span></div>
+    </div>
+  </div>
+  <div class="card story" style="font-size:24px;padding:18px 26px" data-at="3.0">As a shopper, I want checkout to be <b class="gold">fast</b> and <b class="gold">easy</b>. · Codes <b class="gold">expire after a while</b></div>
+  <div class="q" data-at="4.4"><span class="chip">VAGUE TERM</span>
+    <div class="qtext">"fast" can't be tested as written. What is the measurable version?</div></div>
+  <div class="q" data-at="5.6"><span class="chip">VAGUE TERM</span>
+    <div class="qtext">"easy" can't be tested as written. What is the measurable version?</div></div>
+  <div class="q" data-at="6.8"><span class="chip">LIMIT</span>
+    <div class="qtext">What is the actual number for this limit, and what happens at it and one past it?</div></div>
+  <div class="sub" data-at="8.6"><span class="gold">Nothing written.</span> No guessed thresholds hiding in test code.</div>
+</section>
+
+<!-- 3. Answered story -->
+<section class="scene" data-start="18.5" data-end="29">
+  <div class="kicker" data-at="0">You answer · a real shop, behind a login</div>
+  <div class="card story mono" style="font-size:20px;line-height:1.6" data-at="0.3">
+    <div data-type="0.4">As a signed-in shopper, I want to buy a backpack.</div>
+    <div data-type="1.5">Precondition: sign in with env SAUCE_USER / SAUCE_PASSWORD</div>
+    <div data-type="2.8">- Adding the backpack shows "1" on the cart badge</div>
+    <div data-type="3.9">- Ada / Lovelace / 12345 shows "Total: $32.39"</div>
+    <div data-type="5.0">- Finish shows "Thank you for your order!"</div>
+    <div data-type="6.1">- Empty first name shows "Error: First Name is required"</div>
+  </div>
+  <div style="margin-top:22px;font-size:24px" class="mono" data-at="7.6">review_user_story → <span class="ready yes">ready: true · 0 questions</span></div>
+  <div class="sub" data-at="8.4">A role, exact values, exact messages, a failure path.<br>Nothing left to ask.</div>
+</section>
+
+<!-- 4. Secrets stay secret -->
+<section class="scene" data-start="29" data-end="37">
+  <div class="kicker" data-at="0">save_login_state</div>
+  <div class="h2" style="margin-top:14px" data-at="0.2">Logs in once.<br><span class="accent">Never sees the password.</span></div>
+  <div class="card code mono" data-at="1.3">
+    <div data-at="1.6">fill  [data-test="username"]  ← <span class="gold">${ENV:SAUCE_USER}</span></div>
+    <div data-at="2.2">fill  [data-test="password"]  ← <span class="gold">${ENV:SAUCE_PASSWORD}</span></div>
+    <div data-at="2.8">click [data-test="login-button"]</div>
+    <div data-at="3.6" class="green">✓ saved .qa-mcp/auth/sauce.json <span class="dim">(git-ignored)</span></div>
+  </div>
+  <div class="sub" data-at="4.6">Credentials travel as names, not values.<br>Not in the test. Not in the chat.</div>
+</section>
+
+<!-- 5. Verified locators -->
+<section class="scene" data-start="37" data-end="46">
+  <div class="kicker" data-at="0">explore_page · 5 pages through the flow</div>
+  <div class="h2" style="margin-top:14px" data-at="0.2">Locators from the live page,<br><span class="accent">not from memory.</span></div>
+  <div class="card mono" style="padding:14px 28px" data-at="1.2">
+    <div class="row" data-at="1.5"><span>cart badge</span><span class="accent">[data-test="shopping-cart-badge"]</span></div>
+    <div class="row" data-at="2.0"><span>first name</span><span class="accent">[data-test="firstName"]</span></div>
+    <div class="row" data-at="2.5"><span>error</span><span class="accent">[data-test="error"]</span></div>
+    <div class="row" data-at="3.0"><span>total</span><span class="accent">[data-test="total-label"]</span></div>
+    <div class="row" data-at="3.5"><span>confirmation</span><span class="accent">[data-test="complete-header"]</span></div>
+  </div>
+  <div class="sub" data-at="4.4">Each one checked to match <span class="gold">exactly one element</span>.<br>Explicit WebDriverWait. No sleeps.</div>
+</section>
+
+<!-- 6. Result -->
+<section class="scene" data-start="46" data-end="54">
+  <div class="kicker" data-at="0">write_test · pytest · capture_baseline</div>
+  <div class="term" data-at="0.3">
+    <div class="bar"><span class="dot" style="background:#f87171"></span><span class="dot" style="background:#f5c96a"></span><span class="dot" style="background:#4ade80"></span><span style="margin-left:12px">pytest tests/test_buy_backpack.py</span></div>
+    <div class="tbody mono" style="font-size:20px">
+      <div data-at="0.8">test_adding_backpack_shows_1_on_cart_badge <span class="green">PASSED</span></div>
+      <div data-at="1.3">test_continue_with_details_shows_item_total_and_total <span class="green">PASSED</span></div>
+      <div data-at="1.8">test_finish_shows_thank_you_for_your_order <span class="green">PASSED</span></div>
+      <div data-at="2.3">test_continue_without_first_name_shows_error_and_stays <span class="green">PASSED</span></div>
+      <div data-at="2.9" style="margin-top:8px" class="green">======== 4 passed in 28s ========</div>
+    </div>
+  </div>
+  <div class="two">
+    <div class="box" data-at="3.6"><div class="sub" style="margin:0">Acceptance criteria</div><div class="big green">4 / 4</div></div>
+    <div class="box" data-at="4.1"><div class="sub" style="margin:0">Locators baselined</div><div class="big accent">19</div></div>
+  </div>
+</section>
+
+<!-- 7. Won't weaken the test -->
+<section class="scene" data-start="54" data-end="62">
+  <div class="kicker" data-at="0">When the page is wrong</div>
+  <div class="h2" style="margin-top:14px" data-at="0.2">It reports the bug.<br><span class="red">It doesn't bend the test.</span></div>
+  <div class="card story" data-at="1.3">Story: <i>"Opening the page shows the heading 'Example Domain'"</i></div>
+  <div class="card code mono" data-at="2.3">
+    <div data-at="2.6">check_locator (By.TAG_NAME, "h1") → <span class="red">0 matches</span></div>
+    <div data-at="3.2">3 more ways to find it → <span class="red">0 matches</span></div>
+    <div data-at="3.9" class="gold">"I won't swap in a page-title check without your say-so."</div>
+  </div>
+  <div class="sub" data-at="5.0">The live page had changed. The agent stopped and asked.</div>
+</section>
+
+<!-- 8. Languages -->
+<section class="scene" data-start="62" data-end="68">
+  <div class="kicker" data-at="0">Writes tests in your project's language</div>
+  <div class="two" style="margin-top:22px">
+    <div class="lang" data-at="0.3">pytest</div>
+    <div class="lang" data-at="0.7">JUnit 5</div>
+    <div class="lang" data-at="1.1">TestNG</div>
+  </div>
+  <div class="sub" data-at="1.8">Same tools, same questions. And <span class="accent">heal_locator</span> suggests a verified fix when the UI changes.</div>
+</section>
+
+<!-- 9. Call to action -->
+<section class="scene" data-start="68" data-end="76">
+  <div class="kicker" data-at="0">Open source · MIT · on PyPI</div>
+  <div class="h2" style="margin-top:14px" data-at="0.2">Ask before you build.</div>
+  <div class="cmd mono" data-at="0.9"><span class="accent">$</span> uvx k11-selenium-qa-mcp</div>
+  <div class="cmd mono" style="font-size:19.5px;white-space:nowrap" data-at="1.4"><span class="accent">/</span>plugin marketplace add K11-Software-Solutions/k11techlab-selenium-qa-mcp</div>
+  <div class="cmd mono" data-at="1.9"><span class="accent">/</span>plugin install selenium-qa@k11-selenium-qa</div>
+  <div class="sub mono" style="font-size:22px" data-at="2.6">github.com/K11-Software-Solutions/k11techlab-selenium-qa-mcp</div>
+  <div class="sub" data-at="3.4">The LLM brings breadth. <span class="gold">The answers come from people.</span></div>
+</section>
+
+<div class="foot"><span>K11 Software Solutions</span><span class="mono">k11-selenium-qa-mcp</span></div>
+
+<script>
+window.TOTAL = 76;
+const FADE = 0.4, TYPE_CPS = 45;
+const clamp = (x) => Math.max(0, Math.min(1, x));
+const ease = (x) => 1 - Math.pow(1 - x, 3);
+for (const el of document.querySelectorAll("[data-type]")) el.dataset.full = el.innerHTML;
+window.render = function (t) {
+  for (const sc of document.querySelectorAll(".scene")) {
+    const s = +sc.dataset.start, e = +sc.dataset.end;
+    const op = t < s || t > e ? 0 : Math.min(clamp((t - s) / FADE), clamp((e - t) / FADE));
+    sc.style.opacity = op;
+    const local = t - s;
+    for (const el of sc.querySelectorAll("[data-at]")) {
+      const p = ease(clamp((local - +el.dataset.at) / 0.5));
+      el.style.opacity = p;
+      el.style.transform = `translateY(${(1 - p) * 18}px)`;
+    }
+    for (const el of sc.querySelectorAll("[data-type]")) {
+      const full = el.dataset.full.replace(/&nbsp;/g, " ").replace(/&gt;/g, ">");
+      const n = Math.floor(clamp((local - +el.dataset.type) * TYPE_CPS / full.length) * full.length);
+      el.textContent = full.slice(0, n);
+      el.style.opacity = n > 0 ? 1 : 0;
+    }
+  }
+};
+window.render(0);
+</script>
+</body></html>

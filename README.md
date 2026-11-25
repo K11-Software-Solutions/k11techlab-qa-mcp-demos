@@ -21,6 +21,14 @@ Both plugins turn a user story into a passing test through the same command, `/<
 4. **Write, run and heal.** `write_test`, `run_tests` and `heal_locator`.
 5. **Baseline.** `capture_baseline` records locator fingerprints for later healing.
 
+## Videos
+
+| Playwright QA: ask before you build (58 s) | Selenium QA: ask before you build (76 s) |
+|---|---|
+| [![Playwright QA video](videos/playwright-qa-ask-first/thumbnail.jpg)](videos/playwright-qa-ask-first/playwright-qa-ask-before-you-build.mp4?raw=true) | [![Selenium QA video](videos/selenium-qa-ask-first/thumbnail.jpg)](videos/selenium-qa-ask-first/selenium-qa-ask-before-you-build.mp4?raw=true) |
+
+Click a thumbnail to play. The sources and render steps are in [videos/](videos/).
+
 ## Results
 
 | | Selenium (pytest) | Playwright (Playwright Test) |
@@ -40,6 +48,7 @@ fails, either the suite or the demo site has changed.
 inputs/        the exact stories given to the plugins
 selenium/      pytest suite, baselines, live-run records, results, Selenium-specific issues
 playwright/    Playwright suite, baselines, live-run records, results, Playwright-specific issues
+videos/        the two demo videos, with thumbnails and their HTML sources
 docs/
   ISSUES-AND-FIXES.md   everything that went wrong and how it was fixed (start here)
   TIMELINE.md           what happened, in order
