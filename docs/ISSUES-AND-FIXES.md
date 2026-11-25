@@ -62,6 +62,7 @@ cause and the fix. Per-demo test issues are also listed in each folder's README.
 | 10 | Selenium treats TodoMVC's `opacity: 0` checkboxes as not displayed, so the `explore_page` click and check steps time out. | Worked around in the test: wait for presence, then click. Playwright's `check()` has no such problem. |
 | 11 | The Playwright session-step locator parser rejects chained locators (`.filter()`, `.first()`). | Worked around with `page.locator('…:has-text("…") .toggle')`. Open as an enhancement. |
 | 12 | `python -m venv` failed in `ensurepip` on this machine. | Used `uv venv`. |
+| 13 | The first CI run failed in the Playwright job: `ubuntu-latest` is now Ubuntu 26.04, and Playwright 1.56.1 has no Chromium build for it ("Playwright does not support chromium on ubuntu26.04-x64"). | Pinned both CI jobs to `ubuntu-24.04`, keeping the Playwright version the demo used. |
 
 ## What behaved exactly as designed
 

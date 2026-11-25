@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   selenium:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: selenium
@@ -23,7 +23,9 @@ jobs:
       - run: .venv/bin/python -m pytest tests -v
 
   playwright:
-    runs-on: ubuntu-latest
+    # Playwright 1.56.1 (the version used in the demo) has no Chromium build for
+    # ubuntu-latest (26.04), so pin the runner image.
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: playwright
