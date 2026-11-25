@@ -3,7 +3,7 @@
 Plugin: [`selenium-qa`](https://github.com/K11-Software-Solutions/k11techlab-selenium-qa-mcp) 0.3.0
 (MCP server `k11-selenium-qa-mcp`, started with `uvx`). Slash command: `/selenium-qa:story-to-test`.
 
-## Result
+## Demo 1: TodoMVC
 
 [`tests/test_todo_items.py`](tests/test_todo_items.py): 5 pytest tests, one per acceptance criterion
 of the [TodoMVC story](../inputs/README.md#3-full-end-to-end-story-both-plugins-todomvc).
@@ -40,6 +40,45 @@ uv pip install --python .venv\Scripts\python.exe -r requirements.txt
 | 7 | `write_test` | `tests/test_todo_items.py`. |
 | 8 | `run_tests` | **Timed out at 600 s, then at 180 s, with no results**: see issue S3. Ran pytest directly instead: 5 passed. |
 | 9 | `capture_baseline` | 5 locators saved to [`.qa-mcp/baselines.json`](.qa-mcp/baselines.json). |
+
+## Demo 2: Sauce Demo checkout, behind a login
+
+[`tests/test_buy_backpack.py`](tests/test_buy_backpack.py): 4 pytest tests for the
+[backpack checkout story](../inputs/README.md#4-shop-checkout-behind-a-login-selenium-sauce-demo).
+**4 passed in about 28 s** ([output](results/pytest-sauce-output.txt)).
+
+| Test | Acceptance criterion |
+|---|---|
+| `test_adding_backpack_shows_1_on_cart_badge` | The cart starts empty. Adding "Sauce Labs Backpack" shows "1" on the badge. |
+| `test_continue_with_details_shows_item_total_and_total` | Ada / Lovelace / 12345, then Continue, shows exactly "Item total: $29.99" and "Total: $32.39". |
+| `test_finish_shows_thank_you_for_your_order` | Finish leads to the complete page, which shows "Thank you for your order!". |
+| `test_continue_without_first_name_shows_error_and_stays` | Shows exactly "Error: First Name is required", and the browser stays on `checkout-step-one` with the title "Checkout: Your Information". |
+
+**Credentials:**
+- The test signs in through the login page with `SAUCE_USER` and `SAUCE_PASSWORD` from the environment. The values never appear in the test or in any tool argument.
+- If either variable is missing, the tests are **skipped** with a clear message. They don't fail.
+- Use the shared demo username and password shown on the [Sauce Demo login page](https://www.saucedemo.com).
+- Set them as user environment variables, then fully restart any app that starts the MCP server:
+
+```powershell
+[Environment]::SetEnvironmentVariable("SAUCE_USER", "<username from the login page>", "User")
+[Environment]::SetEnvironmentVariable("SAUCE_PASSWORD", "<password from the login page>", "User")
+```
+
+For CI, add the same two values as repository secrets named `SAUCE_USER` and `SAUCE_PASSWORD`.
+
+### How the agent got there
+
+| Step | Tool | What happened |
+|---|---|---|
+| 1 | `review_user_story` | `ready: true`, no questions. The story already had a role, a precondition, exact values and messages, and a failure path. |
+| 2 | `explore_page` (login page) | Verified `[data-test="username"]`, `[data-test="password"]` and `[data-test="login-button"]`. |
+| 3 | `save_login_state` | First attempt: `SAUCE_USER is not set`. The variables had been set after the app started; see [issue 14](../docs/ISSUES-AND-FIXES.md). After a full restart it signed in and saved `.qa-mcp/auth/sauce.json` (git-ignored). |
+| 4 | `parse_user_story` | 4 scenarios and a pytest skeleton. |
+| 5 | `explore_page` × 5 with `session.storage_state` + `session.steps` | Inventory, cart, information page in its error state (Continue with the first name empty), overview, complete. Every locator used is a `data-test` attribute. |
+| 6 | `write_test` | `tests/test_buy_backpack.py`. |
+| 7 | `run_tests` | Timed out after 150 s with no results, the same as issue S3. Ran pytest directly: 4 passed. |
+| 8 | `capture_baseline` × 6 | 19 locators across 6 pages in [`.qa-mcp/baselines.json`](.qa-mcp/baselines.json). |
 
 ## Earlier live runs (command line and installed plugin)
 

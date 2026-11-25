@@ -65,3 +65,19 @@ Precondition: none, the page is public and starts with an empty list.
 ```
 
 Selenium was asked for pytest. Expected and actual: `ready: true`, then a passing 5-test suite from each plugin.
+
+## 4. Shop checkout behind a login (Selenium, Sauce Demo)
+
+Start URL: `https://www.saucedemo.com`
+
+```text
+As a signed-in shopper, I want to buy a backpack so that I receive my order. Use pytest.
+Precondition: sign in with the username in env SAUCE_USER and the password in env SAUCE_PASSWORD.
+- Adding "Sauce Labs Backpack" to the cart shows "1" on the cart badge
+- At checkout, entering first name "Ada", last name "Lovelace" and postal code "12345", then clicking Continue, shows "Item total: $29.99" and "Total: $32.39"
+- Clicking Finish shows "Thank you for your order!"
+- Clicking Continue with the first name empty shows "Error: First Name is required" and stays on the information page
+```
+
+Expected and actual: `ready: true`, then a passing 4-test suite. The credentials only ever travel as
+`${ENV:SAUCE_USER}` and `${ENV:SAUCE_PASSWORD}`.

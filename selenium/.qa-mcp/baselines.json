@@ -48,5 +48,244 @@
       },
       "capturedAt": "2026-11-25T20:35:29+00:00"
     }
+  },
+  "https://www.saucedemo.com/": {
+    "(By.CSS_SELECTOR, '[data-test=\"username\"]')": {
+      "fingerprint": {
+        "classes": "input_error form_input",
+        "id": "user-name",
+        "name": "Username",
+        "nameAttr": "user-name",
+        "placeholder": "Username",
+        "role": "textbox",
+        "tag": "input",
+        "testId": "username",
+        "type": "text"
+      },
+      "capturedAt": "2026-11-25T21:07:10+00:00"
+    },
+    "(By.CSS_SELECTOR, '[data-test=\"password\"]')": {
+      "fingerprint": {
+        "classes": "input_error form_input",
+        "id": "password",
+        "name": "Password",
+        "nameAttr": "password",
+        "placeholder": "Password",
+        "role": "textbox",
+        "tag": "input",
+        "testId": "password",
+        "type": "password"
+      },
+      "capturedAt": "2026-11-25T21:07:10+00:00"
+    },
+    "(By.CSS_SELECTOR, '[data-test=\"login-button\"]')": {
+      "fingerprint": {
+        "classes": "submit-button btn_action",
+        "id": "login-button",
+        "name": "Login",
+        "nameAttr": "login-button",
+        "role": "button",
+        "tag": "input",
+        "testId": "login-button",
+        "type": "submit"
+      },
+      "capturedAt": "2026-11-25T21:07:10+00:00"
+    }
+  },
+  "https://www.saucedemo.com/inventory.html": {
+    "(By.CSS_SELECTOR, '[data-test=\"inventory-container\"]')": {
+      "fingerprint": {
+        "classes": "inventory_container",
+        "id": "inventory_container",
+        "name": "Sauce Labs Backpack carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequ",
+        "tag": "div",
+        "testId": "inventory-container",
+        "text": "Sauce Labs Backpack carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequ"
+      },
+      "capturedAt": "2026-11-25T21:07:14+00:00"
+    },
+    "(By.CSS_SELECTOR, '[data-test=\"add-to-cart-sauce-labs-backpack\"]')": {
+      "fingerprint": {
+        "classes": "btn btn_primary btn_small btn_inventory",
+        "id": "add-to-cart-sauce-labs-backpack",
+        "name": "Add to cart",
+        "nameAttr": "add-to-cart-sauce-labs-backpack",
+        "role": "button",
+        "tag": "button",
+        "testId": "add-to-cart-sauce-labs-backpack",
+        "text": "Add to cart"
+      },
+      "capturedAt": "2026-11-25T21:07:14+00:00"
+    },
+    "(By.CSS_SELECTOR, '[data-test=\"shopping-cart-link\"]')": {
+      "fingerprint": {
+        "classes": "shopping_cart_link",
+        "name": "Cart, empty",
+        "role": "button",
+        "tag": "a",
+        "testId": "shopping-cart-link"
+      },
+      "capturedAt": "2026-11-25T21:07:14+00:00"
+    }
+  },
+  "https://www.saucedemo.com/cart.html": {
+    "(By.CSS_SELECTOR, '[data-test=\"shopping-cart-badge\"]')": {
+      "fingerprint": {
+        "classes": "shopping_cart_badge",
+        "name": "1",
+        "tag": "span",
+        "testId": "shopping-cart-badge",
+        "text": "1"
+      },
+      "capturedAt": "2026-11-25T21:07:18+00:00"
+    },
+    "(By.CSS_SELECTOR, '[data-test=\"inventory-item-name\"]')": {
+      "fingerprint": {
+        "classes": "inventory_item_name",
+        "name": "Sauce Labs Backpack",
+        "tag": "div",
+        "testId": "inventory-item-name",
+        "text": "Sauce Labs Backpack"
+      },
+      "capturedAt": "2026-11-25T21:07:18+00:00"
+    },
+    "(By.CSS_SELECTOR, '[data-test=\"checkout\"]')": {
+      "fingerprint": {
+        "classes": "btn btn_action btn_medium checkout_button",
+        "id": "checkout",
+        "name": "Checkout",
+        "nameAttr": "checkout",
+        "role": "button",
+        "tag": "button",
+        "testId": "checkout",
+        "text": "Checkout"
+      },
+      "capturedAt": "2026-11-25T21:07:18+00:00"
+    }
+  },
+  "https://www.saucedemo.com/checkout-step-one.html": {
+    "(By.CSS_SELECTOR, '[data-test=\"firstName\"]')": {
+      "fingerprint": {
+        "classes": "input_error form_input error",
+        "id": "first-name",
+        "name": "First Name",
+        "nameAttr": "firstName",
+        "placeholder": "First Name",
+        "role": "textbox",
+        "tag": "input",
+        "testId": "firstName",
+        "type": "text"
+      },
+      "capturedAt": "2026-11-25T21:07:22+00:00"
+    },
+    "(By.CSS_SELECTOR, '[data-test=\"lastName\"]')": {
+      "fingerprint": {
+        "classes": "input_error form_input error",
+        "id": "last-name",
+        "name": "Last Name",
+        "nameAttr": "lastName",
+        "placeholder": "Last Name",
+        "role": "textbox",
+        "tag": "input",
+        "testId": "lastName",
+        "type": "text"
+      },
+      "capturedAt": "2026-11-25T21:07:22+00:00"
+    },
+    "(By.CSS_SELECTOR, '[data-test=\"postalCode\"]')": {
+      "fingerprint": {
+        "classes": "input_error form_input error",
+        "id": "postal-code",
+        "name": "Zip/Postal Code",
+        "nameAttr": "postalCode",
+        "placeholder": "Zip/Postal Code",
+        "role": "textbox",
+        "tag": "input",
+        "testId": "postalCode",
+        "type": "text"
+      },
+      "capturedAt": "2026-11-25T21:07:22+00:00"
+    },
+    "(By.CSS_SELECTOR, '[data-test=\"continue\"]')": {
+      "fingerprint": {
+        "classes": "submit-button btn btn_primary cart_button btn_action",
+        "id": "continue",
+        "name": "Continue",
+        "nameAttr": "continue",
+        "role": "button",
+        "tag": "input",
+        "testId": "continue",
+        "type": "submit"
+      },
+      "capturedAt": "2026-11-25T21:07:22+00:00"
+    },
+    "(By.CSS_SELECTOR, '[data-test=\"error\"]')": {
+      "fingerprint": {
+        "name": "Error: First Name is required",
+        "role": "alert",
+        "tag": "h3",
+        "testId": "error",
+        "text": "Error: First Name is required"
+      },
+      "capturedAt": "2026-11-25T21:07:22+00:00"
+    },
+    "(By.CSS_SELECTOR, '[data-test=\"title\"]')": {
+      "fingerprint": {
+        "classes": "title",
+        "name": "Checkout: Your Information",
+        "tag": "span",
+        "testId": "title",
+        "text": "Checkout: Your Information"
+      },
+      "capturedAt": "2026-11-25T21:07:22+00:00"
+    }
+  },
+  "https://www.saucedemo.com/checkout-step-two.html": {
+    "(By.CSS_SELECTOR, '[data-test=\"subtotal-label\"]')": {
+      "fingerprint": {
+        "classes": "summary_subtotal_label",
+        "name": "Item total: $29.99",
+        "tag": "div",
+        "testId": "subtotal-label",
+        "text": "Item total: $29.99"
+      },
+      "capturedAt": "2026-11-25T21:07:27+00:00"
+    },
+    "(By.CSS_SELECTOR, '[data-test=\"total-label\"]')": {
+      "fingerprint": {
+        "classes": "summary_total_label",
+        "name": "Total: $32.39",
+        "tag": "div",
+        "testId": "total-label",
+        "text": "Total: $32.39"
+      },
+      "capturedAt": "2026-11-25T21:07:27+00:00"
+    },
+    "(By.CSS_SELECTOR, '[data-test=\"finish\"]')": {
+      "fingerprint": {
+        "classes": "btn btn_action btn_medium cart_button",
+        "id": "finish",
+        "name": "Finish",
+        "nameAttr": "finish",
+        "role": "button",
+        "tag": "button",
+        "testId": "finish",
+        "text": "Finish"
+      },
+      "capturedAt": "2026-11-25T21:07:27+00:00"
+    }
+  },
+  "https://www.saucedemo.com/checkout-complete.html": {
+    "(By.CSS_SELECTOR, '[data-test=\"complete-header\"]')": {
+      "fingerprint": {
+        "classes": "complete-header",
+        "name": "Thank you for your order!",
+        "role": "heading",
+        "tag": "h2",
+        "testId": "complete-header",
+        "text": "Thank you for your order!"
+      },
+      "capturedAt": "2026-11-25T21:07:31+00:00"
+    }
   }
 }

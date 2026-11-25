@@ -63,6 +63,7 @@ cause and the fix. Per-demo test issues are also listed in each folder's README.
 | 11 | The Playwright session-step locator parser rejects chained locators (`.filter()`, `.first()`). | Worked around with `page.locator('…:has-text("…") .toggle')`. Open as an enhancement. |
 | 12 | `python -m venv` failed in `ensurepip` on this machine. | Used `uv venv`. |
 | 13 | The first CI run failed in the Playwright job: `ubuntu-latest` is now Ubuntu 26.04, and Playwright 1.56.1 has no Chromium build for it ("Playwright does not support chromium on ubuntu26.04-x64"). | Pinned both CI jobs to `ubuntu-24.04`, keeping the Playwright version the demo used. |
+| 14 | Sauce Demo: `save_login_state` failed with "Environment variable SAUCE_USER is not set", after the variables had been set. | The MCP server inherits its environment from the Claude app, and the app had been running since before the variables existed. Closing the window doesn't restart it. Fixed by quitting the app from the system tray icon and reopening it, so set credential variables *before* starting the app. |
 
 ## What behaved exactly as designed
 

@@ -29,6 +29,7 @@ Both plugins turn a user story into a passing test through the same command, `/<
 | Answered story on example.com | Stopped: the page's `<h1>` is gone, reported as an app problem | Stopped: example.com has no shop |
 | TodoMVC story, 5 acceptance criteria | **5/5 pass** in 26 s | **5/5 pass** in 5.5 s, first time |
 | Tests | [selenium/tests/test_todo_items.py](selenium/tests/test_todo_items.py) | [playwright/tests/todo-items.spec.ts](playwright/tests/todo-items.spec.ts) |
+| Sauce Demo checkout behind a login, 4 acceptance criteria | **4/4 pass** in 28 s: [test_buy_backpack.py](selenium/tests/test_buy_backpack.py). Credentials come only from env vars. | not run |
 
 CI runs both TodoMVC suites against the live demo site on every push and every Monday. If a run
 fails, either the suite or the demo site has changed.

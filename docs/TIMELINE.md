@@ -19,7 +19,8 @@ All dates are 2026-11-25. Times are approximate and in UTC.
 | 20:14 | Desktop vague-story run: `ready: false`, the three questions, nothing written. |
 | ~20:20 to 20:30 | **Selenium TodoMVC run:** `ready: true`, then explore and write the tests. Hit issues 8, 9, 10 and 12. 5/5 passed with pytest. Baseline captured. [folder](../selenium/) |
 | ~20:35 to 20:45 | **Playwright TodoMVC run:** `ready: true`, then explore (hit issue 11) and write the spec. 5/5 passed first time through `run_tests`. Baseline captured. [folder](../playwright/) |
-| ~20:50 | Created this repository as a historical record. |
+| ~20:50 | Created this repository as a historical record. Added CI; the first run failed on ubuntu-latest (issue 13), and the fix was to pin `ubuntu-24.04`. |
+| Later | **Selenium Sauce Demo run** (login, checkout). The story passed review, then sign-in was blocked until the app was fully restarted with the credential variables (issue 14). 4/4 passed with pytest. 19 locators baselined across 6 pages. [folder](../selenium/) |
 
 ## Cost of the command-line live runs
 

@@ -1,0 +1,11 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.0, pytest-9.2.0, pluggy-1.7.0 -- .venv/Scripts/python.exe
+rootdir: <repo>/selenium
+collecting ... collected 4 items
+
+tests/test_buy_backpack.py::TestBuyABackpack::test_adding_backpack_shows_1_on_cart_badge PASSED [ 25%]
+tests/test_buy_backpack.py::TestBuyABackpack::test_continue_with_details_shows_item_total_and_total PASSED [ 50%]
+tests/test_buy_backpack.py::TestBuyABackpack::test_finish_shows_thank_you_for_your_order PASSED [ 75%]
+tests/test_buy_backpack.py::TestBuyABackpack::test_continue_without_first_name_shows_error_and_stays PASSED [100%]
+
+============================= 4 passed in 28.12s ==============================
