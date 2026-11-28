@@ -1,0 +1,181 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Ask before you build: integration</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1080px;overflow:hidden;background:#0a1028}
+body{font-family:"Segoe UI","Inter",system-ui,sans-serif;color:#eef2f8}
+#grid{position:absolute;inset:0;background-image:linear-gradient(rgba(140,170,230,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(140,170,230,.05) 1px,transparent 1px);background-size:54px 54px}
+#glow{position:absolute;width:1200px;height:1200px;left:-60px;top:-300px;border-radius:50%;background:radial-gradient(circle,rgba(192,132,252,.16),rgba(192,132,252,0) 60%)}
+.scene{position:absolute;inset:0;padding:80px 80px 100px;display:flex;flex-direction:column;justify-content:center;opacity:0}
+.kicker{font-size:22px;letter-spacing:.22em;font-weight:700;color:#c084fc;text-transform:uppercase}
+.h1{font-size:72px;font-weight:800;line-height:1.08;letter-spacing:-.01em}
+.h2{font-size:52px;font-weight:800;line-height:1.12}
+.sub{font-size:30px;color:#a9b7cc;margin-top:22px;line-height:1.35}
+.accent{color:#c084fc}.gold{color:#f5c96a}.red{color:#f87171}.green{color:#4ade80}
+.mono{font-family:"Cascadia Mono","Consolas",monospace}
+.card{background:#111a3a;border:2px solid #263463;border-radius:18px;padding:24px 30px;margin-top:22px}
+.story{font-size:26px;line-height:1.5;color:#dbe4f1}
+.code{font-size:21px;line-height:1.75}
+.strike{text-decoration:line-through;text-decoration-color:#f87171;text-decoration-thickness:3px}
+.term{background:rgba(6,10,24,.94);border:2px solid #24344f;border-radius:18px;overflow:hidden;margin-top:16px}
+.bar{display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid #1e2c44;align-items:center;color:#8ea0bb;font-size:19px}
+.dot{width:13px;height:13px;border-radius:50%}
+.tbody{padding:16px 24px;font-size:21px;line-height:1.6}
+.q{background:#121c40;border:2px solid #2a3a6e;border-left:6px solid #f5c96a;border-radius:14px;padding:12px 18px;margin-top:12px}
+.chip{display:inline-block;font-size:16px;font-weight:800;padding:3px 11px;border-radius:8px;letter-spacing:.04em;color:#f5c96a;border:2px solid #f5c96a;background:rgba(245,201,106,.1);margin-bottom:6px}
+.qtext{font-size:21px;line-height:1.36}
+.quote{font-size:18px;color:#93a4bf;font-style:italic;margin-top:4px}
+.pill{display:inline-block;font-size:22px;font-weight:700;padding:10px 18px;border-radius:12px;background:#24163d;border:2px solid #6b3fa0;margin:8px 8px 0 0}
+.ready{display:inline-block;font-size:23px;font-weight:800;padding:6px 14px;border-radius:10px;border:2px solid}
+.ready.no{color:#f87171;border-color:#ef4444;background:rgba(239,68,68,.12)}
+.ready.yes{color:#4ade80;border-color:#22c55e;background:rgba(34,197,94,.12)}
+.two{display:flex;gap:22px;margin-top:24px}
+.box{flex:1;background:#111a3a;border:2px solid #263463;border-radius:18px;padding:22px 24px}
+.box .big{font-size:46px;font-weight:800;margin-top:6px}
+.cmd{font-size:25px;background:#060a18;border:2px solid #24344f;border-radius:12px;padding:16px 20px;margin-top:16px}
+.foot{position:absolute;left:80px;right:80px;bottom:40px;display:flex;justify-content:space-between;font-size:20px;color:#7f90ad}
+[data-at]{opacity:0}
+[data-type]{white-space:pre-wrap}
+</style></head>
+<body>
+<div id="grid"></div><div id="glow"></div>
+
+<!-- 1. Hook -->
+<section class="scene" data-start="0" data-end="5.6">
+  <div class="kicker" data-at="0.2">k11 Integration QA · v0.2</div>
+  <div class="h1" style="margin-top:26px" data-at="0.5">The API returned 201.<br><span class="accent">Did the consumer<br>reserve the stock?</span></div>
+  <div class="sub" data-at="2.0">The bugs live between the parts: events, consumers, jobs.<br><span class="gold">Now the agent asks before it builds the flow.</span></div>
+</section>
+
+<!-- 2. The problem -->
+<section class="scene" data-start="5.6" data-end="14">
+  <div class="kicker" data-at="0">The problem</div>
+  <div class="h2" style="margin-top:14px" data-at="0.2">An LLM doesn't ask.<br><span class="red">It guesses.</span></div>
+  <div class="card story" data-at="1.2">As a shopper, I want my order's stock reserved after I place it.<br>
+    · The inventory consumer reserves the stock <b class="gold">eventually</b><br>
+    · A <b class="gold">refundIssued</b> event is published when an order is cancelled</div>
+  <div class="card code mono" data-at="2.6">
+    <div data-at="2.9"><span class="strike">within: 30s</span> <span class="red"># who said 30 s?</span></div>
+    <div data-at="3.7"><span class="strike"># delivered twice? never tested</span> <span class="red"># guessed</span></div>
+    <div data-at="4.5"><span class="strike">match: { "$.refundIssued": true }</span> <span class="red"># not in the contract</span></div>
+  </div>
+  <div class="sub" data-at="5.6">A slow consumer hidden by a generous time limit.</div>
+</section>
+
+<!-- 3. Ask first -->
+<section class="scene" data-start="14" data-end="28.5">
+  <div class="kicker" data-at="0">New in v0.2 · review_flow_plan</div>
+  <div class="term" data-at="0.3">
+    <div class="bar"><span class="dot" style="background:#f87171"></span><span class="dot" style="background:#f5c96a"></span><span class="dot" style="background:#4ade80"></span><span style="margin-left:12px">Claude Code</span></div>
+    <div class="tbody mono">
+      <div data-type="0.6">&gt; /integration-check "As a shopper, I want my order's stock…"</div>
+      <div data-at="2.4" style="margin-top:6px">review_flow_plan + asyncapi.yaml → <span class="ready no">ready: false · 4 questions</span></div>
+    </div>
+  </div>
+  <div class="q" data-at="3.4"><span class="chip">TIME LIMIT</span>
+    <div class="qtext">How long may this take at most (for example within 10 seconds)? "eventually" is not a time limit.</div>
+    <div class="quote">"The inventory consumer reserves the stock eventually"</div></div>
+  <div class="q" data-at="5.2"><span class="chip">DUPLICATE</span>
+    <div class="qtext">What should happen when the same message is delivered twice (brokers redeliver after a timeout or a restart): is the second copy ignored, or applied again? Which field identifies a duplicate?</div></div>
+  <div class="q" data-at="7.0"><span class="chip">CONTRACT MISMATCH</span>
+    <div class="qtext">The story uses the field "refundIssued", but no message payload in the AsyncAPI contract has it. Which field does it mean?</div></div>
+  <div class="sub" style="font-size:24px;margin-top:14px" data-at="9.0">+ 1 more: a time limit for the refund event.<br><span class="gold">The agent stops and asks you.</span></div>
+</section>
+
+<!-- 4. You answer -->
+<section class="scene" data-start="28.5" data-end="41">
+  <div class="kicker" data-at="0">You answer</div>
+  <div class="card story mono" style="font-size:17px;line-height:1.45;padding:18px 26px" data-at="0.3">
+    <div data-type="0.4">Scenario: stock is reserved</div>
+    <div data-type="0.8">  When I POST /orders for 3 x SKU-1</div>
+    <div data-type="1.4">  Then within 10 seconds a StockReserved event with qty 3</div>
+    <div data-type="2.3">       is published on orders.events</div>
+    <div data-type="2.9">  And within 10 seconds the inventory row shows 3 reserved</div>
+    <div data-type="3.9">Scenario: the same OrderCreated event is delivered twice</div>
+    <div data-type="4.8">  Then within 10 seconds the second copy is ignored,</div>
+    <div data-type="5.6">       matched by orderId, and 3 stay reserved</div>
+    <div data-type="6.3">Scenario: an invalid order is rejected</div>
+    <div data-type="6.9">  When I POST /orders for 0 x SKU-1</div>
+    <div data-type="7.4">  Then I get HTTP 400, and within 5 seconds no OrderCreated</div>
+  </div>
+  <div style="font-size:17px;color:#7f90ad;margin-top:6px" data-at="0.3">Given steps trimmed for the screen.</div>
+  <div style="margin-top:18px;font-size:23px" class="mono" data-at="8.6">review_flow_plan → <span class="ready yes">ready: true · 0 questions</span></div>
+  <div style="margin-top:6px" data-at="9.2"><span class="pill">validate_flow</span><span class="pill">run_integration_tests</span><span class="pill">get_report</span></div>
+</section>
+
+<!-- 5. Both ways -->
+<section class="scene" data-start="41" data-end="50.5">
+  <div class="kicker" data-at="0">The demo shop, tested both ways</div>
+  <div class="two">
+    <div class="box" data-at="0.4"><div class="sub" style="margin:0;font-size:24px">3 bugs switched on</div><div class="big red">0 / 4 pass</div></div>
+    <div class="box" data-at="1.0"><div class="sub" style="margin:0;font-size:24px">bugs off</div><div class="big green">4 / 4 pass</div></div>
+  </div>
+  <div class="card code mono" style="font-size:19px" data-at="2.0">
+    <div class="red">❌ the inventory consumer reserves all 3</div>
+    <div>0 of 1 matching message(s) within 10s (2 on orders.events)</div>
+    <div>closest: <span class="gold">$.qty: expected 3, got 1</span></div>
+  </div>
+  <div class="sub" data-at="3.4">The <b class="accent">closest message</b> tells "the event never came"<br>apart from "it came with the wrong quantity".</div>
+</section>
+
+<!-- 6. Open questions -->
+<section class="scene" data-start="50.5" data-end="56.5">
+  <div class="kicker" data-at="0">Going ahead anyway?</div>
+  <div class="h2" style="margin-top:14px" data-at="0.2">Open questions are<br><span class="accent">written down, not guessed.</span></div>
+  <div class="card code mono" data-at="1.5">
+    <div>- name: the inventory consumer reserves the stock</div>
+    <div class="gold">&nbsp;&nbsp;# OPEN QUESTION: how long may this take at most?</div>
+    <div>&nbsp;&nbsp;expect_message: { from: events, … }</div>
+  </div>
+  <div class="sub" data-at="3.0">And a slow consumer is a finding.<br>Time limits are never lengthened to make a flow pass.</div>
+</section>
+
+<!-- 7. Same habit -->
+<section class="scene" data-start="56.5" data-end="62.5">
+  <div class="kicker" data-at="0">One habit · five tools</div>
+  <div class="h2" style="margin-top:14px" data-at="0.2">Ask before you build.</div>
+  <div style="margin-top:18px" data-at="0.8"><span class="pill">Playwright QA</span><span class="pill">Selenium QA</span><span class="pill">API Functional QA</span><span class="pill" style="border-color:#c084fc;color:#c084fc">Integration QA</span><span class="pill">Performance QA</span></div>
+  <div class="sub" data-at="1.6">The same shared story cases as the UI and API tools,<br>plus the questions only an event-driven system raises.</div>
+</section>
+
+<!-- 8. Call to action -->
+<section class="scene" data-start="62.5" data-end="69.5">
+  <div class="kicker" data-at="0">Open source · MIT · on PyPI</div>
+  <div class="h2" style="margin-top:14px" data-at="0.2">Test the whole chain.</div>
+  <div class="cmd mono" data-at="0.9"><span class="accent">$</span> pip install "k11-integration-qa-mcp[kafka]"</div>
+  <div class="cmd mono" style="font-size:24px" data-at="1.4"><span class="accent">/</span>plugin install integration-qa@k11-integration-qa</div>
+  <div class="sub mono" style="font-size:21px" data-at="2.0">github.com/K11-Software-Solutions/k11techlab-integration-qa-mcp</div>
+  <div class="sub" data-at="2.8">API call, Kafka message, consumer, dead letter, batch job: <span class="gold">one flow.</span></div>
+</section>
+
+<div class="foot"><span>K11 Software Solutions</span><span class="mono">k11-integration-qa-mcp</span></div>
+
+<script>
+window.TOTAL = 69.5;
+const FADE = 0.4, TYPE_CPS = 45;
+const clamp = (x) => Math.max(0, Math.min(1, x));
+const ease = (x) => 1 - Math.pow(1 - x, 3);
+for (const el of document.querySelectorAll("[data-type]")) el.dataset.full = el.innerHTML;
+window.render = function (t) {
+  for (const sc of document.querySelectorAll(".scene")) {
+    const s = +sc.dataset.start, e = +sc.dataset.end;
+    const op = t < s || t > e ? 0 : Math.min(clamp((t - s) / FADE), clamp((e - t) / FADE));
+    sc.style.opacity = op;
+    const local = t - s;
+    for (const el of sc.querySelectorAll("[data-at]")) {
+      const p = ease(clamp((local - +el.dataset.at) / 0.5));
+      el.style.opacity = p;
+      el.style.transform = `translateY(${(1 - p) * 18}px)`;
+    }
+    for (const el of sc.querySelectorAll("[data-type]")) {
+      const full = el.dataset.full.replace(/&nbsp;/g, " ").replace(/&gt;/g, ">");
+      const n = Math.floor(clamp((local - +el.dataset.type) * TYPE_CPS / full.length) * full.length);
+      el.textContent = full.slice(0, n);
+      el.style.opacity = n > 0 ? 1 : 0;
+    }
+  }
+};
+window.render(0);
+</script>
+</body></html>
