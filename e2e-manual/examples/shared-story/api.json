@@ -1,0 +1,27 @@
+{
+  "ready": false,
+  "questions": [
+    {
+      "kind": "vague-term",
+      "question": "\"quickly\" can't be tested as written. What is the measurable version (a number, a time, a specific behaviour)?",
+      "why": "A test needs a threshold or a concrete expectation.",
+      "quote": "As a shopper, I want to place an order and get a confirmation quickly."
+    },
+    {
+      "kind": "error-contract",
+      "question": "Which status code and error body should this return (for example 400 or 422, and which message or error code)?",
+      "why": "A rejection test needs the exact status and body; \"any 4xx\" also passes when the request fails for the wrong reason, such as a typo in the URL.",
+      "quote": "An order that can't be fulfilled is rejected"
+    },
+    {
+      "kind": "access",
+      "question": "The story is for a shopper. What should happen without credentials, and when one user calls with another user's IDs: 401, 403 or 404?",
+      "why": "Access control is the API's job, not the UI's; without an expected answer a test can't tell a missing check from a correct one."
+    }
+  ],
+  "assumptions": [
+    "The tests will use a shopper account.",
+    "Anything a question above asks about will be left as a TODO, not guessed."
+  ],
+  "next": "Ask the user these questions and wait for answers. Add the answers to the story (as acceptance criteria or Given/When/Then), then call review_user_story again."
+}
