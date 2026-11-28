@@ -1,0 +1,4 @@
+As a shopper, I want to place an order and get a confirmation quickly.
+- The order is saved and the stock is reserved eventually
+- An order that can't be fulfilled is rejected
+- Checkout handles heavy load during sales

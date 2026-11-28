@@ -1,0 +1,23 @@
+{
+  "ready": false,
+  "questions": [
+    {
+      "kind": "vague-term",
+      "question": "\"quickly\" can't be tested as written. What is the measurable version (a number, a time, a specific behaviour)?",
+      "why": "A test needs a threshold or a concrete expectation.",
+      "quote": "As a shopper, I want to place an order and get a confirmation quickly."
+    },
+    {
+      "kind": "time-limit",
+      "question": "How long may this take at most (for example within 10 seconds)? \"eventually\" is not a time limit.",
+      "why": "Every expect_message and wait_until needs a limit. A guessed one fails on a slow but correct consumer, or passes a consumer that is too slow for the business.",
+      "quote": "The order is saved and the stock is reserved eventually"
+    }
+  ],
+  "assumptions": [
+    "The tests will use a shopper account.",
+    "Anything a question above asks about will be left as a TODO, not guessed.",
+    "Time limits will be exactly the ones you give; a slow consumer is reported as a finding, never fixed by a longer limit."
+  ],
+  "next": "Ask the user these questions and wait for answers. Add the answers to the story (as acceptance criteria or Given/When/Then), then call review_flow_plan again. If the user says to go ahead anyway, put each open question in the flow as a '# OPEN QUESTION:' comment next to the step it affects, and list them in the report."
+}

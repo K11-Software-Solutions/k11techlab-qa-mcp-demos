@@ -1,0 +1,16 @@
+{
+  "ready": false,
+  "questions": [
+    {
+      "kind": "vague-term",
+      "question": "\"quickly\" can't be tested as written. What is the measurable version (a number, a time, a specific behaviour)?",
+      "why": "A test needs a threshold or a concrete expectation.",
+      "quote": "As a shopper, I want to place an order and get a confirmation quickly."
+    }
+  ],
+  "assumptions": [
+    "The tests will use a shopper account.",
+    "Anything a question above asks about will be left as a TODO, not guessed."
+  ],
+  "next": "Ask the user these questions and wait for answers. Add the answers to the story (as acceptance criteria or Given/When/Then), then call review_user_story again."
+}

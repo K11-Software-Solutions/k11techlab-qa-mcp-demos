@@ -1,0 +1,51 @@
+{
+  "ready": false,
+  "questions": [
+    {
+      "kind": "slo",
+      "question": "No SLOs are set. For each endpoint or journey: which percentile (p95? p99?), what target in ms, and what error rate is acceptable?",
+      "why": "Without a target the run can only describe latency, never fail on it, so a slow release \"passes\"."
+    },
+    {
+      "kind": "load-profile",
+      "question": "The load profile isn't set, so the tool's default (5 users) would run. What peak load should this test: concurrent users or requests per second, and where does that number come from (production analytics, a launch forecast, a contract)? Record the source as plan.peak.",
+      "why": "The number of users decides what the result means; a default nobody chose tests nothing in particular.",
+      "quote": "profile: (not set)"
+    },
+    {
+      "kind": "duration",
+      "question": "The duration and ramp-up are unset. How long should the test hold peak load, and how fast should it ramp up? Record why as plan.duration.",
+      "why": "Short runs miss what only shows over time (pool exhaustion, GC pauses, cache expiry, leaks), and an instant ramp tests a spike, not normal growth.",
+      "quote": "profile: (not set)"
+    },
+    {
+      "kind": "vague-term",
+      "question": "\"quickly\" has no number. What is the measurable version (users, requests per second, milliseconds at which percentile)?",
+      "why": "A load test needs a threshold; without one any result can be called fast or slow.",
+      "quote": "As a shopper, I want to place an order and get a confirmation quickly."
+    },
+    {
+      "kind": "vague-term",
+      "question": "\"heavy load\" has no number. What is the measurable version (users, requests per second, milliseconds at which percentile)?",
+      "why": "A load test needs a threshold; without one any result can be called fast or slow.",
+      "quote": "Checkout handles heavy load during sales"
+    },
+    {
+      "kind": "test-data",
+      "question": "What data will the test run against: how many records (orders, products, users), and how many distinct users or IDs will the virtual users use? Record it as plan.test_data.",
+      "why": "A few users hitting the same few IDs are served from caches; the result looks faster than production will be. An empty database flatters every query."
+    },
+    {
+      "kind": "environment-size",
+      "question": "How does the target environment compare with production: instances, CPU and memory, database size, shared or dedicated? Record it as plan.environment_size.",
+      "why": "Results only carry over when the scale is known: a run on half the hardware means something different from one on a shared laptop."
+    }
+  ],
+  "assumptions": [
+    "There is no .qa-mcp/perf.yaml yet; init_perf_config writes a starter with these questions as OPEN QUESTION comments.",
+    "The run would use 5 virtual users for 30s with a 5s ramp-up and 100 ms think time (the tool's defaults, which nobody agreed to).",
+    "Endpoints without an SLO are measured and reported, but can't fail the run on latency.",
+    "Anything a question asks about will be written as a '# OPEN QUESTION:' comment in .qa-mcp/perf.yaml and listed in the report, not guessed. No SLO will be invented."
+  ],
+  "next": "Show these questions to the user and stop until they answer. Put the answers in .qa-mcp/perf.yaml (numbers in profile and slos, their sources under plan) and call review_perf_plan again. If the user says to go ahead without answering, write each open question as a '# OPEN QUESTION: ...' comment in .qa-mcp/perf.yaml, list them in the report, and never invent an SLO."
+}
