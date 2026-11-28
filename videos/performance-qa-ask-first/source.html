@@ -1,0 +1,180 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Ask before you load-test</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1080px;overflow:hidden;background:#0a1028}
+body{font-family:"Segoe UI","Inter",system-ui,sans-serif;color:#eef2f8}
+#grid{position:absolute;inset:0;background-image:linear-gradient(rgba(140,170,230,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(140,170,230,.05) 1px,transparent 1px);background-size:54px 54px}
+#glow{position:absolute;width:1200px;height:1200px;left:-60px;top:-300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,.15),rgba(251,146,60,0) 60%)}
+.scene{position:absolute;inset:0;padding:80px 80px 100px;display:flex;flex-direction:column;justify-content:center;opacity:0}
+.kicker{font-size:22px;letter-spacing:.22em;font-weight:700;color:#fb923c;text-transform:uppercase}
+.h1{font-size:74px;font-weight:800;line-height:1.08;letter-spacing:-.01em}
+.h2{font-size:52px;font-weight:800;line-height:1.12}
+.sub{font-size:30px;color:#a9b7cc;margin-top:22px;line-height:1.35}
+.accent{color:#fb923c}.gold{color:#f5c96a}.red{color:#f87171}.green{color:#4ade80}
+.mono{font-family:"Cascadia Mono","Consolas",monospace}
+.card{background:#111a3a;border:2px solid #263463;border-radius:18px;padding:24px 30px;margin-top:22px}
+.story{font-size:27px;line-height:1.5;color:#dbe4f1}
+.code{font-size:22px;line-height:1.75}
+.strike{text-decoration:line-through;text-decoration-color:#f87171;text-decoration-thickness:3px}
+.term{background:rgba(6,10,24,.94);border:2px solid #24344f;border-radius:18px;overflow:hidden;margin-top:16px}
+.bar{display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid #1e2c44;align-items:center;color:#8ea0bb;font-size:19px}
+.dot{width:13px;height:13px;border-radius:50%}
+.tbody{padding:16px 24px;font-size:21px;line-height:1.6}
+.q{background:#121c40;border:2px solid #2a3a6e;border-left:6px solid #f5c96a;border-radius:14px;padding:11px 18px;margin-top:11px}
+.chip{display:inline-block;font-size:16px;font-weight:800;padding:3px 11px;border-radius:8px;letter-spacing:.04em;color:#f5c96a;border:2px solid #f5c96a;background:rgba(245,201,106,.1);margin-bottom:5px}
+.qtext{font-size:20px;line-height:1.34}
+.quote{font-size:18px;color:#93a4bf;font-style:italic;margin-top:4px}
+.pill{display:inline-block;font-size:22px;font-weight:700;padding:10px 18px;border-radius:12px;background:#2a1c12;border:2px solid #7c4a22;margin:8px 8px 0 0}
+.ready{display:inline-block;font-size:23px;font-weight:800;padding:6px 14px;border-radius:10px;border:2px solid}
+.ready.no{color:#f87171;border-color:#ef4444;background:rgba(239,68,68,.12)}
+.ready.yes{color:#4ade80;border-color:#22c55e;background:rgba(34,197,94,.12)}
+.cmd{font-size:26px;background:#060a18;border:2px solid #24344f;border-radius:12px;padding:16px 20px;margin-top:16px}
+table{border-collapse:collapse;width:100%;font-size:21px}
+td{padding:9px 10px;border-bottom:1px solid #263463}
+td.r{text-align:right}
+.foot{position:absolute;left:80px;right:80px;bottom:40px;display:flex;justify-content:space-between;font-size:20px;color:#7f90ad}
+[data-at]{opacity:0}
+[data-type]{white-space:pre-wrap}
+</style></head>
+<body>
+<div id="grid"></div><div id="glow"></div>
+
+<!-- 1. Hook -->
+<section class="scene" data-start="0" data-end="5.4">
+  <div class="kicker" data-at="0.2">k11 Performance QA · v0.2</div>
+  <div class="h1" style="margin-top:26px" data-at="0.5">"It must stay fast."<br><span class="accent">How fast? For<br>how many users?</span></div>
+  <div class="sub" data-at="1.9">A load test without numbers measures nothing.<br><span class="gold">Now the agent asks before it load-tests.</span></div>
+</section>
+
+<!-- 2. The problem -->
+<section class="scene" data-start="5.4" data-end="13.6">
+  <div class="kicker" data-at="0">The problem</div>
+  <div class="h2" style="margin-top:14px" data-at="0.2">Without answers,<br><span class="red">defaults decide.</span></div>
+  <div class="card story" data-at="1.2">"Load test checkout before the sale.<br>It must stay <b class="gold">fast</b> under <b class="gold">heavy load</b>."</div>
+  <div class="card code mono" data-at="2.6">
+    <div data-at="2.9"><span class="strike">vus: 5</span> <span class="red"># the tool's default, not your peak</span></div>
+    <div data-at="3.7"><span class="strike">duration: 30s</span> <span class="red"># default again</span></div>
+    <div data-at="4.5"><span class="strike">slos: {}</span> <span class="red"># no target, so it all "passes"</span></div>
+  </div>
+  <div class="sub" data-at="5.6">A green result that nobody agreed to.</div>
+</section>
+
+<!-- 3. Ask first -->
+<section class="scene" data-start="13.6" data-end="29.5">
+  <div class="kicker" data-at="0">New in v0.2 · review_perf_plan</div>
+  <div class="term" data-at="0.3">
+    <div class="bar"><span class="dot" style="background:#f87171"></span><span class="dot" style="background:#f5c96a"></span><span class="dot" style="background:#4ade80"></span><span style="margin-left:12px">Claude Code</span></div>
+    <div class="tbody mono">
+      <div data-type="0.6">&gt; /perf-check "Load test checkout before the sale…"</div>
+      <div data-at="2.3" style="margin-top:6px">review_perf_plan → <span class="ready no">ready: false · 7 questions</span></div>
+    </div>
+  </div>
+  <div class="q" data-at="3.3"><span class="chip">SLO</span>
+    <div class="qtext">No SLOs are set. For each endpoint or journey: which percentile (p95? p99?), what target in ms, and what error rate is acceptable?</div></div>
+  <div class="q" data-at="4.9"><span class="chip">LOAD PROFILE</span>
+    <div class="qtext">The load profile isn't set, so the tool's default (5 users) would run. What peak load should this test, and where does that number come from?</div></div>
+  <div class="q" data-at="6.5"><span class="chip">VAGUE TERM</span>
+    <div class="qtext">"fast" has no number. What is the measurable version (users, requests per second, milliseconds at which percentile)?</div>
+    <div class="quote">"It must stay fast under heavy load."</div></div>
+  <div class="q" data-at="8.1"><span class="chip">ENVIRONMENT SIZE</span>
+    <div class="qtext">How does the target environment compare with production: instances, CPU and memory, database size, shared or dedicated?</div></div>
+  <div class="sub" style="font-size:24px;margin-top:14px" data-at="9.7">+ 3 more: duration and ramp-up, "heavy load", test data.<br><span class="gold">The agent stops and asks you.</span></div>
+</section>
+
+<!-- 4. You answer -->
+<section class="scene" data-start="29.5" data-end="41.5">
+  <div class="kicker" data-at="0">You answer, in .qa-mcp/perf.yaml</div>
+  <div class="card story mono" style="font-size:19px;line-height:1.5;padding:20px 28px" data-at="0.3">
+    <div data-type="0.4">profile: { vus: 4, duration: 8s, ramp_up: 1s, think_time_ms: 20 }</div>
+    <div data-type="1.4">slos:</div>
+    <div data-type="1.7">  "GET /orders/{id}": { p95_ms: 250, error_rate: 0.01 }</div>
+    <div data-type="2.8">  "*": { p95_ms: 800, error_rate: 0.02 }</div>
+    <div data-type="3.6">plan:   # where the numbers come from</div>
+    <div data-type="4.3">  peak: "Demo only: 4 users keep a laptop run under 10 seconds…"</div>
+    <div data-type="5.3">  test_data: "Each virtual user creates its own customer and orders…"</div>
+    <div data-type="6.3">  environment_size: "The demo shop runs in-process on one machine…"</div>
+  </div>
+  <div style="margin-top:20px;font-size:23px" class="mono" data-at="7.6">review_perf_plan → <span class="ready yes">ready: true · 0 questions</span></div>
+  <div style="margin-top:8px" data-at="8.3"><span class="pill">run_load_test</span><span class="pill">save_baseline</span><span class="pill">get_report</span></div>
+  <div class="sub" data-at="9.0">Every number has a source a person wrote down.</div>
+</section>
+
+<!-- 5. The result -->
+<section class="scene" data-start="41.5" data-end="50">
+  <div class="kicker" data-at="0">Baseline, then a slower release</div>
+  <div class="term" data-at="0.3">
+    <div class="bar"><span class="dot" style="background:#f87171"></span><span class="dot" style="background:#f5c96a"></span><span class="dot" style="background:#4ade80"></span><span style="margin-left:12px">k11-performance-qa-mcp run --scenario browse</span></div>
+    <div class="tbody mono">
+      <div data-at="0.8">Performance: <span class="red">❌ needs attention</span></div>
+      <div data-at="1.6" style="margin-top:6px"><span class="red">regression:</span> GET /orders/{id}</div>
+      <div data-at="1.6">&nbsp;&nbsp;p95 77.4 → 131.2 ms (+69.5%, p=0.0000)</div>
+      <div data-at="2.8" style="margin-top:6px"><span class="green">SLOs: 8/8 met.</span></div>
+    </div>
+  </div>
+  <div class="h2" style="margin-top:30px;font-size:46px" data-at="3.8">Every SLO passed.<br><span class="accent">The release was still flagged.</span></div>
+  <div class="sub" data-at="5.0">Without a baseline, this slowdown ships, and the next one breaks the SLO.</div>
+</section>
+
+<!-- 6. Not noise -->
+<section class="scene" data-start="50" data-end="57">
+  <div class="kicker" data-at="0">Noise is not a regression</div>
+  <div class="card" data-at="0.3">
+    <table class="mono">
+      <tr><td>GET /orders/{id}</td><td class="r red">+69.5%</td><td class="red">🔺 regression</td></tr>
+      <tr><td>DELETE /orders/{id}</td><td class="r">−55.7%</td><td style="color:#93a4bf">not significant</td></tr>
+      <tr><td>POST /orders</td><td class="r green">−51.8%</td><td class="green">faster</td></tr>
+    </table>
+  </div>
+  <div class="sub" data-at="1.4">A regression needs <b class="accent">&gt; 15% and &gt; 15 ms slower</b>, with <b class="accent">p &lt; 0.01</b>.<br>Only the endpoint that really slowed down is flagged.</div>
+</section>
+
+<!-- 7. Same habit -->
+<section class="scene" data-start="57" data-end="63">
+  <div class="kicker" data-at="0">One habit · five tools</div>
+  <div class="h2" style="margin-top:14px" data-at="0.2">Ask before you build.</div>
+  <div style="margin-top:18px" data-at="0.8"><span class="pill">Playwright QA</span><span class="pill">Selenium QA</span><span class="pill">API Functional QA</span><span class="pill">Integration QA</span><span class="pill" style="border-color:#fb923c;color:#fb923c">Performance QA</span></div>
+  <div class="sub" data-at="1.6">Never raise an SLO, loosen a tolerance or refresh<br>the baseline to make a run pass.</div>
+</section>
+
+<!-- 8. Call to action -->
+<section class="scene" data-start="63" data-end="70">
+  <div class="kicker" data-at="0">Open source · MIT · on PyPI</div>
+  <div class="h2" style="margin-top:14px" data-at="0.2">Ask before you load-test.</div>
+  <div class="cmd mono" data-at="0.9"><span class="accent">$</span> uvx k11-performance-qa-mcp</div>
+  <div class="cmd mono" style="font-size:24px" data-at="1.4"><span class="accent">/</span>plugin install performance-qa@k11-performance-qa</div>
+  <div class="sub mono" style="font-size:21px" data-at="2.0">github.com/K11-Software-Solutions/k11techlab-performance-qa-mcp</div>
+  <div class="sub" data-at="2.8">The tool measures. <span class="gold">People decide what "fast" means.</span></div>
+</section>
+
+<div class="foot"><span>K11 Software Solutions</span><span class="mono">k11-performance-qa-mcp</span></div>
+
+<script>
+window.TOTAL = 70;
+const FADE = 0.4, TYPE_CPS = 45;
+const clamp = (x) => Math.max(0, Math.min(1, x));
+const ease = (x) => 1 - Math.pow(1 - x, 3);
+for (const el of document.querySelectorAll("[data-type]")) el.dataset.full = el.innerHTML;
+window.render = function (t) {
+  for (const sc of document.querySelectorAll(".scene")) {
+    const s = +sc.dataset.start, e = +sc.dataset.end;
+    const op = t < s || t > e ? 0 : Math.min(clamp((t - s) / FADE), clamp((e - t) / FADE));
+    sc.style.opacity = op;
+    const local = t - s;
+    for (const el of sc.querySelectorAll("[data-at]")) {
+      const p = ease(clamp((local - +el.dataset.at) / 0.5));
+      el.style.opacity = p;
+      el.style.transform = `translateY(${(1 - p) * 18}px)`;
+    }
+    for (const el of sc.querySelectorAll("[data-type]")) {
+      const full = el.dataset.full.replace(/&nbsp;/g, " ").replace(/&gt;/g, ">");
+      const n = Math.floor(clamp((local - +el.dataset.type) * TYPE_CPS / full.length) * full.length);
+      el.textContent = full.slice(0, n);
+      el.style.opacity = n > 0 ? 1 : 0;
+    }
+  }
+};
+window.render(0);
+</script>
+</body></html>

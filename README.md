@@ -44,11 +44,15 @@ Both plugins turn a user story into a passing test through the same command, `/<
 
 ## Videos
 
-| Playwright QA: ask before you build (58 s) | Selenium QA: ask before you build (76 s) |
-|---|---|
-| [![Playwright QA video](videos/playwright-qa-ask-first/thumbnail.jpg)](videos/playwright-qa-ask-first/playwright-qa-ask-before-you-build.mp4?raw=true) | [![Selenium QA video](videos/selenium-qa-ask-first/thumbnail.jpg)](videos/selenium-qa-ask-first/selenium-qa-ask-before-you-build.mp4?raw=true) |
+One per tool. Click a thumbnail to play. The sources, render steps and what each video shows are in [videos/](videos/).
 
-Click a thumbnail to play. The sources and render steps are in [videos/](videos/).
+| Playwright QA (58 s) | Selenium QA (76 s) | API Functional QA (69 s) |
+|---|---|---|
+| [![Playwright QA video](videos/playwright-qa-ask-first/thumbnail.jpg)](videos/playwright-qa-ask-first/playwright-qa-ask-before-you-build.mp4?raw=true) | [![Selenium QA video](videos/selenium-qa-ask-first/thumbnail.jpg)](videos/selenium-qa-ask-first/selenium-qa-ask-before-you-build.mp4?raw=true) | [![API Functional QA video](videos/api-functional-qa-ask-first/thumbnail.jpg)](videos/api-functional-qa-ask-first/api-functional-qa-ask-before-you-build.mp4?raw=true) |
+
+| Integration QA (70 s) | Performance QA (70 s) |
+|---|---|
+| [![Integration QA video](videos/integration-qa-ask-first/thumbnail.jpg)](videos/integration-qa-ask-first/integration-qa-ask-before-you-build.mp4?raw=true) | [![Performance QA video](videos/performance-qa-ask-first/thumbnail.jpg)](videos/performance-qa-ask-first/performance-qa-ask-before-you-load-test.mp4?raw=true) |
 
 ## Results
 
@@ -70,7 +74,7 @@ e2e-manual/    end-to-end testing manual for five tools, with recorded examples 
 inputs/        the exact stories given to the plugins
 selenium/      pytest suite, baselines, live-run records, results, Selenium-specific issues
 playwright/    Playwright suite, baselines, live-run records, results, Playwright-specific issues
-videos/        the two demo videos, with thumbnails and their HTML sources
+videos/        the five demo videos, with thumbnails and their HTML sources
 docs/
   ISSUES-AND-FIXES.md   everything that went wrong and how it was fixed (start here)
   TIMELINE.md           what happened, in order

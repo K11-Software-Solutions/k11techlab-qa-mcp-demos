@@ -1,0 +1,194 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Ask before you build: APIs</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1080px;overflow:hidden;background:#0a1028}
+body{font-family:"Segoe UI","Inter",system-ui,sans-serif;color:#eef2f8}
+#grid{position:absolute;inset:0;background-image:linear-gradient(rgba(140,170,230,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(140,170,230,.05) 1px,transparent 1px);background-size:54px 54px}
+#glow{position:absolute;width:1200px;height:1200px;left:-60px;top:-300px;border-radius:50%;background:radial-gradient(circle,rgba(129,140,248,.17),rgba(129,140,248,0) 60%)}
+.scene{position:absolute;inset:0;padding:80px 80px 100px;display:flex;flex-direction:column;justify-content:center;opacity:0}
+.kicker{font-size:22px;letter-spacing:.22em;font-weight:700;color:#818cf8;text-transform:uppercase}
+.h1{font-size:74px;font-weight:800;line-height:1.08;letter-spacing:-.01em}
+.h2{font-size:52px;font-weight:800;line-height:1.12}
+.sub{font-size:30px;color:#a9b7cc;margin-top:22px;line-height:1.35}
+.accent{color:#818cf8}.gold{color:#f5c96a}.red{color:#f87171}.green{color:#4ade80}
+.mono{font-family:"Cascadia Mono","Consolas",monospace}
+.card{background:#111a3a;border:2px solid #263463;border-radius:18px;padding:24px 30px;margin-top:22px}
+.story{font-size:27px;line-height:1.5;color:#dbe4f1}
+.code{font-size:22px;line-height:1.75}
+.strike{text-decoration:line-through;text-decoration-color:#f87171;text-decoration-thickness:3px}
+.term{background:rgba(6,10,24,.94);border:2px solid #24344f;border-radius:18px;overflow:hidden;margin-top:16px}
+.bar{display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid #1e2c44;align-items:center;color:#8ea0bb;font-size:19px}
+.dot{width:13px;height:13px;border-radius:50%}
+.tbody{padding:16px 24px;font-size:21px;line-height:1.6}
+.q{background:#121c40;border:2px solid #2a3a6e;border-left:6px solid #f5c96a;border-radius:14px;padding:12px 18px;margin-top:12px}
+.chip{display:inline-block;font-size:16px;font-weight:800;padding:3px 11px;border-radius:8px;letter-spacing:.04em;color:#f5c96a;border:2px solid #f5c96a;background:rgba(245,201,106,.1);margin-bottom:6px}
+.qtext{font-size:21px;line-height:1.36}
+.quote{font-size:18px;color:#93a4bf;font-style:italic;margin-top:4px}
+.pill{display:inline-block;font-size:22px;font-weight:700;padding:10px 18px;border-radius:12px;background:#1a1f50;border:2px solid #3f4a9c;margin:8px 8px 0 0}
+.ready{display:inline-block;font-size:23px;font-weight:800;padding:6px 14px;border-radius:10px;border:2px solid}
+.ready.no{color:#f87171;border-color:#ef4444;background:rgba(239,68,68,.12)}
+.ready.yes{color:#4ade80;border-color:#22c55e;background:rgba(34,197,94,.12)}
+.two{display:flex;gap:22px;margin-top:30px}
+.box{flex:1;background:#111a3a;border:2px solid #263463;border-radius:18px;padding:26px}
+.box .big{font-size:42px;font-weight:800;margin-top:10px}
+.cmd{font-size:26px;background:#060a18;border:2px solid #24344f;border-radius:12px;padding:16px 20px;margin-top:16px}
+.ex{font-size:23px;line-height:1.6}
+.foot{position:absolute;left:80px;right:80px;bottom:40px;display:flex;justify-content:space-between;font-size:20px;color:#7f90ad}
+[data-at]{opacity:0}
+[data-type]{white-space:pre-wrap}
+</style></head>
+<body>
+<div id="grid"></div><div id="glow"></div>
+
+<!-- 1. Hook -->
+<section class="scene" data-start="0" data-end="5.4">
+  <div class="kicker" data-at="0.2">k11 API Functional QA · v0.2</div>
+  <div class="h1" style="margin-top:26px" data-at="0.5">An API test is only<br>as good as its<br><span class="accent">expected result.</span></div>
+  <div class="sub" data-at="1.9">Which status code? Is the row deleted or kept?<br><span class="gold">Now the agent asks before it builds.</span></div>
+</section>
+
+<!-- 2. The problem -->
+<section class="scene" data-start="5.4" data-end="13.6">
+  <div class="kicker" data-at="0">The problem</div>
+  <div class="h2" style="margin-top:14px" data-at="0.2">An LLM doesn't ask.<br><span class="red">It guesses.</span></div>
+  <div class="card story" data-at="1.2">As a shopper, I want to cancel an order.<br>
+    · A cancelled order is <b class="gold">removed</b><br>
+    · Cancelling an order that has already shipped is <b class="gold">rejected</b><br>
+    · The response includes the <b class="gold">refundAmount</b></div>
+  <div class="card code mono" data-at="2.6">
+    <div data-at="2.9"><span class="strike">expect: { status: 400 }</span> <span class="red"># who said 400?</span></div>
+    <div data-at="3.7"><span class="strike">db: SELECT … → 0 rows</span> <span class="red"># hard delete? guessed</span></div>
+    <div data-at="4.5"><span class="strike">check: $.refundAmount</span> <span class="red"># not in the spec</span></div>
+  </div>
+  <div class="sub" data-at="5.6">Guesses hidden in the flow. Nobody agreed to them.</div>
+</section>
+
+<!-- 3. Ask first -->
+<section class="scene" data-start="13.6" data-end="29">
+  <div class="kicker" data-at="0">New in v0.2 · review_user_story</div>
+  <div class="term" data-at="0.3">
+    <div class="bar"><span class="dot" style="background:#f87171"></span><span class="dot" style="background:#f5c96a"></span><span class="dot" style="background:#4ade80"></span><span style="margin-left:12px">Claude Code</span></div>
+    <div class="tbody mono">
+      <div data-type="0.6">&gt; /api-story-test "As a shopper, I want to cancel an order…"</div>
+      <div data-at="2.4" style="margin-top:6px">review_user_story + openapi.yaml → <span class="ready no">ready: false · 4 questions</span></div>
+    </div>
+  </div>
+  <div class="q" data-at="3.4"><span class="chip">ERROR CONTRACT</span>
+    <div class="qtext">Which status code and error body should this return (for example 400 or 422, and which message or error code)?</div>
+    <div class="quote">"Cancelling an order that has already shipped is rejected"</div></div>
+  <div class="q" data-at="5.2"><span class="chip">DELETE SEMANTICS</span>
+    <div class="qtext">Is the record removed (hard delete) or kept and marked (soft delete: which status or column)? And what does GET return for it afterwards?</div></div>
+  <div class="q" data-at="7.0"><span class="chip">ACCESS</span>
+    <div class="qtext">What should happen without credentials, and when one user calls with another user's IDs: 401, 403 or 404?</div></div>
+  <div class="q" data-at="8.8"><span class="chip">SPEC MISMATCH</span>
+    <div class="qtext">The story uses "refundAmount", but no parameter, request field or response field in the spec has that name. Which field does it mean?</div></div>
+  <div class="sub" style="font-size:27px;margin-top:16px" data-at="10.8"><span class="gold">The agent stops and asks you.</span> Each question says why it matters.</div>
+</section>
+
+<!-- 4. You answer, then it builds -->
+<section class="scene" data-start="29" data-end="42.5">
+  <div class="kicker" data-at="0">You answer</div>
+  <div class="card story mono" style="font-size:18px;line-height:1.45;padding:20px 28px" data-at="0.3">
+    <div data-type="0.4">Scenario: cancel a pending order</div>
+    <div data-type="0.8">&nbsp;&nbsp;Given I have a pending order</div>
+    <div data-type="1.2">&nbsp;&nbsp;When I send DELETE /orders/{id}</div>
+    <div data-type="1.7">&nbsp;&nbsp;Then I get HTTP 204</div>
+    <div data-type="2.0">&nbsp;&nbsp;And the order row is kept with status "cancelled"</div>
+    <div data-type="2.9">Scenario: cancel a shipped order</div>
+    <div data-type="3.3">&nbsp;&nbsp;Given I have a shipped order</div>
+    <div data-type="3.7">&nbsp;&nbsp;Then I get HTTP 409 with error "order_already_shipped"</div>
+    <div data-type="4.6">Scenario: no credentials</div>
+    <div data-type="5.0">&nbsp;&nbsp;When I send DELETE /orders/{id} without a token</div>
+    <div data-type="5.8">&nbsp;&nbsp;Then I get HTTP 401</div>
+    <div data-type="6.1">Scenario: another user's order</div>
+    <div data-type="6.5">&nbsp;&nbsp;Given another shopper has a pending order</div>
+    <div data-type="7.2">&nbsp;&nbsp;Then I get HTTP 404</div>
+  </div>
+  <div style="margin-top:20px;font-size:23px" class="mono" data-at="8.0">review_user_story → <span class="ready yes">ready: true · 0 questions</span></div>
+  <div style="margin-top:8px" data-at="8.7">
+    <span class="pill">draft_flow</span><span class="pill">call_api</span><span class="pill">query_db</span><span class="pill">write_flow</span><span class="pill">run_flows</span>
+  </div>
+  <div class="sub" data-at="9.4">Then it builds the flow, with a database check<br>that the row was really kept.</div>
+</section>
+
+<!-- 5. Per exchange -->
+<section class="scene" data-start="42.5" data-end="49">
+  <div class="kicker" data-at="0">Judged per exchange</div>
+  <div class="h2" style="margin-top:14px" data-at="0.2">An answer has to be<br><span class="accent">in the right place.</span></div>
+  <div class="card ex mono" data-at="1.2">
+    <div>When I register again</div>
+    <div>Then I get 409 <span class="green">✓ answered</span></div>
+  </div>
+  <div class="card ex mono" data-at="2.4">
+    <div>When I register again</div>
+    <div>Then I see a confirmation <span class="red">✗ still asked</span></div>
+    <div style="color:#93a4bf;font-size:20px"># a 201 in another exchange doesn't answer it</div>
+  </div>
+  <div class="sub" data-at="3.6">Each When → Then pair is judged on its own.</div>
+</section>
+
+<!-- 6. Open questions -->
+<section class="scene" data-start="49" data-end="55">
+  <div class="kicker" data-at="0">Going ahead anyway?</div>
+  <div class="h2" style="margin-top:14px" data-at="0.2">Open questions are<br><span class="accent">written down, not guessed.</span></div>
+  <div class="card code mono" data-at="1.5">
+    <div>- name: cancel a shipped order</div>
+    <div class="gold">&nbsp;&nbsp;# OPEN QUESTION: which status code and error body?</div>
+    <div>&nbsp;&nbsp;request: DELETE /orders/${orderId}</div>
+  </div>
+  <div class="sub" data-at="3.0">Next to the step it affects, and in the final report.</div>
+</section>
+
+<!-- 7. Same rules, three tools -->
+<section class="scene" data-start="55" data-end="61.5">
+  <div class="kicker" data-at="0">One set of rules · three tools</div>
+  <div class="two">
+    <div class="box" data-at="0.4"><div class="sub" style="margin:0;font-size:26px">Playwright QA</div><div class="big accent">UI</div></div>
+    <div class="box" data-at="0.8"><div class="sub" style="margin:0;font-size:26px">Selenium QA</div><div class="big accent">UI</div></div>
+    <div class="box" data-at="1.2"><div class="sub" style="margin:0;font-size:26px">API Functional QA</div><div class="big gold">API</div></div>
+  </div>
+  <div class="sub" data-at="2.0">One shared test file, byte-identical in all three repos:<br>same story, same questions.<br><span class="green">Clear API stories get zero questions.</span></div>
+</section>
+
+<!-- 8. Call to action -->
+<section class="scene" data-start="61.5" data-end="68.5">
+  <div class="kicker" data-at="0">Open source · MIT · on PyPI</div>
+  <div class="h2" style="margin-top:14px" data-at="0.2">Ask before you build.</div>
+  <div class="cmd mono" data-at="0.9"><span class="accent">$</span> uvx k11-api-functional-qa-mcp</div>
+  <div class="cmd mono" style="font-size:24px" data-at="1.4"><span class="accent">/</span>plugin install api-functional-qa@k11-api-functional-qa</div>
+  <div class="sub mono" style="font-size:21px" data-at="2.0">github.com/K11-Software-Solutions/k11techlab-api-functional-qa-mcp</div>
+  <div class="sub" data-at="2.8">The LLM brings breadth. <span class="gold">The answers come from people.</span></div>
+</section>
+
+<div class="foot"><span>K11 Software Solutions</span><span class="mono">k11-api-functional-qa-mcp</span></div>
+
+<script>
+window.TOTAL = 68.5;
+const FADE = 0.4, TYPE_CPS = 45;
+const clamp = (x) => Math.max(0, Math.min(1, x));
+const ease = (x) => 1 - Math.pow(1 - x, 3);
+for (const el of document.querySelectorAll("[data-type]")) el.dataset.full = el.innerHTML;
+window.render = function (t) {
+  for (const sc of document.querySelectorAll(".scene")) {
+    const s = +sc.dataset.start, e = +sc.dataset.end;
+    const op = t < s || t > e ? 0 : Math.min(clamp((t - s) / FADE), clamp((e - t) / FADE));
+    sc.style.opacity = op;
+    const local = t - s;
+    for (const el of sc.querySelectorAll("[data-at]")) {
+      const p = ease(clamp((local - +el.dataset.at) / 0.5));
+      el.style.opacity = p;
+      el.style.transform = `translateY(${(1 - p) * 18}px)`;
+    }
+    for (const el of sc.querySelectorAll("[data-type]")) {
+      const full = el.dataset.full.replace(/&nbsp;/g, " ").replace(/&gt;/g, ">");
+      const n = Math.floor(clamp((local - +el.dataset.type) * TYPE_CPS / full.length) * full.length);
+      el.textContent = full.slice(0, n);
+      el.style.opacity = n > 0 ? 1 : 0;
+    }
+  }
+};
+window.render(0);
+</script>
+</body></html>
